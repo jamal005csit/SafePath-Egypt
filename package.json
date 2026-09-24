@@ -1,0 +1,17 @@
+{
+  "name": "safepath-egypt",
+  "version": "1.0.0",
+  "description": "SafePath Egypt — private Arabic-language digital navigator for technology-facilitated violence triage",
+  "main": "server/index.js",
+  "scripts": {
+    "start": "node server/index.js",
+    "dev": "node server/index.js"
+  },
+  "dependencies": {
+    "dotenv": "^18.0.3",
+    "express": "^4.19.2"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

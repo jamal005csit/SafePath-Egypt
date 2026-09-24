@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>SafePath Egypt — طريق آمن</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Quick Exit: always present, always findable -->
+  <button id="quickExit" class="quick-exit" aria-label="خروج سريع">
+    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9"/>
+    </svg>
+    <span>خروج سريع</span>
+  </button>
+
+  <main id="app">
+
+    <!-- SCREEN 1: Safe Entry -->
+    <section class="screen screen--entry" data-screen="entry" aria-hidden="false">
+      <div class="entry__mark" aria-hidden="true">
+        <svg viewBox="0 0 48 48" width="40" height="40" fill="none" stroke="currentColor" stroke-width="2.2">
+          <path d="M24 4L8 11v11c0 10.5 7 17.4 16 21 9-3.6 16-10.5 16-21V11L24 4z"/>
+          <path d="M17 24l5 5 10-10" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+
+      <h1 class="entry__title">SafePath Egypt<br><span>طريق آمن</span></h1>
+      <p class="entry__lead">مساحة خاصة تساعدك تفهمي اللي حصل، وتعرفي خطوتك الجاية، من غير ما تحطي أي بيانات تعرّف بيها نفسك.</p>
+
+      <button class="btn btn--primary btn--lg" data-goto="input">
+        تقييم حادث بأمان
+      </button>
+
+      <ul class="entry__promises">
+        <li><span class="dot"></span>مفيش تخزين لأي حاجة بتكتبيها بعد التحليل</li>
+        <li><span class="dot"></span>بياناتك الشخصية بتتشال قبل أي تحليل</li>
+        <li><span class="dot"></span>مفيش رفع صور أو ملفات نهائي</li>
+      </ul>
+    </section>
+
+    <!-- SCREEN 2: Incident Intake -->
+    <section class="screen" data-screen="input" aria-hidden="true">
+      <button class="back-btn" data-goto="entry" aria-label="رجوع">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l-6 6 6 6M21 12H4"/></svg>
+      </button>
+
+      <h2 class="screen__title">احكيلنا اللي حصل</h2>
+      <p class="screen__lead">اكتبي بكلماتك، بشكل مختصر. مفيش صح أو غلط في طريقة الكتابة.</p>
+
+      <div class="warning-banner">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink:0"><path d="M12 9v4M12 17h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/></svg>
+        <span>من فضلك متحطيش صور أو أي محتوى حساس هنا — النظام مصمم إنه ميقبلش رفع ملفات أصلًا.</span>
+      </div>
+
+      <textarea id="incidentText" class="incident-textarea" rows="7" placeholder="مثال: حد عمل أكونت باسمي وبيبعت رسايل لناس وهو بيتظاهر إنه أنا..."></textarea>
+
+      <div id="charHint" class="char-hint">اكتبي على الأقل جملة أو اتنين عشان نقدر نساعدك صح</div>
+
+      <button id="analyzeBtn" class="btn btn--primary btn--lg btn--block" data-goto="analysis">
+        <span class="btn__label">تحليل آمن</span>
+        <span class="btn__spinner" hidden></span>
+      </button>
+    </section>
+
+    <!-- SCREEN 3: Triage & Redaction Results -->
+    <section class="screen" data-screen="analysis" aria-hidden="true">
+      <button class="back-btn" data-goto="input" aria-label="رجوع"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l-6 6 6 6M21 12H4"/></svg></button>
+
+      <div id="dangerAlert" class="danger-alert" hidden>
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v4M12 17h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/></svg>
+        <div>
+          <strong>لو في خطر جسدي مباشر حالًا</strong>
+          <p>اتصلي فورًا بالطوارئ (١٢٢) أو بخط نجدة المرأة القومي ١٥١١٥</p>
+        </div>
+      </div>
+
+      <div class="category-card">
+        <span class="category-card__eyebrow">النوع اللي قدرنا نحدده</span>
+        <h2 id="categoryLabel" class="category-card__label">—</h2>
+        <p id="categoryDesc" class="category-card__desc"></p>
+      </div>
+
+      <div class="redaction-block">
+        <h3 class="redaction-block__title">اللي كتبتيه (بعد إخفاء بياناتك)</h3>
+        <p id="redactedText" class="redaction-block__text"></p>
+        <p id="redactionNote" class="redaction-block__note" hidden></p>
+      </div>
+
+      <button class="btn btn--primary btn--lg btn--block" data-goto="action">
+        اعرفي خطوتك الجاية
+      </button>
+    </section>
+
+    <!-- SCREEN 4: Action Plan -->
+    <section class="screen" data-screen="action" aria-hidden="true">
+      <button class="back-btn" data-goto="analysis" aria-label="رجوع"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l-6 6 6 6M21 12H4"/></svg></button>
+
+      <h2 class="screen__title">خطة التصرف</h2>
+
+      <div class="acc-card" data-open="true">
+        <button class="acc-card__head">
+          <span class="acc-card__num">١</span>
+          <span class="acc-card__title">حفظ الأدلة</span>
+          <svg class="acc-card__chev" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="acc-card__body">
+          <p>احفظي دي على جهازك بس — مش هترفعيها هنا</p>
+          <ul id="evidenceChecklist" class="checklist"></ul>
+        </div>
+      </div>
+
+      <div class="acc-card">
+        <button class="acc-card__head">
+          <span class="acc-card__num">٢</span>
+          <span class="acc-card__title">مسارات الإبلاغ الرسمية</span>
+          <svg class="acc-card__chev" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="acc-card__body">
+          <div id="pathwaysList"></div>
+        </div>
+      </div>
+
+      <div class="acc-card">
+        <button class="acc-card__head">
+          <span class="acc-card__num">٣</span>
+          <span class="acc-card__title">الإطار القانوني</span>
+          <svg class="acc-card__chev" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="acc-card__body">
+          <p id="legalText"></p>
+        </div>
+      </div>
+
+      <div class="report-block">
+        <h3>عايزة تسجلي البلاغ ده؟</h3>
+        <p>هيتسجل رقم مرجعي بس — من غير أي بيانات تعرّف بيك.</p>
+        <button id="submitReportBtn" class="btn btn--primary btn--lg btn--block">تسجيل البلاغ</button>
+        <div id="reportConfirm" class="report-confirm" hidden></div>
+      </div>
+
+      <button class="btn btn--ghost btn--block" data-goto="entry">إنهاء الجلسة</button>
+    </section>
+
+  </main>
+
+<script src="app.js"></script>
+</body>
+</html>
