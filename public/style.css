@@ -32,7 +32,10 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
 }
 
 * { box-sizing: border-box; }
@@ -96,7 +99,7 @@ textarea { font-family: inherit; }
 .quick-exit {
   position: fixed;
   top: 14px;
-  left: 14px; /* left in RTL = far from thumb, deliberately reachable but not center-of-attention */
+  left: 14px;
   z-index: 100;
   display: flex;
   align-items: center;
@@ -221,38 +224,90 @@ textarea { font-family: inherit; }
   outline-offset: 2px;
 }
 
+.btn:disabled {
+  opacity: 0.75;
+  cursor: progress;
+}
+
+/* Spinner — visible only when NOT hidden */
 .btn__spinner {
   display: inline-block;
-  width: 16px; height: 16px;
-  border: 2px solid rgba(255,255,255,0.4);
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.4);
   border-top-color: #fff;
   border-radius: 50%;
   animation: spin 0.7s linear infinite;
   margin-inline-start: 8px;
   vertical-align: middle;
 }
-@keyframes spin { to { transform: rotate(360deg); } }
+
+.btn__spinner[hidden] {
+  display: none;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
 
 /* ============ Back button ============ */
 
 .back-btn {
   position: absolute;
-  top: 76px;
-  right: var(--space-3); /* "back" arrow sits at reading-start in RTL */
+  top: 24px;
+  right: var(--space-3);
   background: var(--surface);
   border: 1px solid var(--border);
   color: var(--ink-soft);
-  width: 38px; height: 38px;
+  width: 38px;
+  height: 38px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   margin-bottom: var(--space-3);
 }
-.back-btn svg { transform: scaleX(-1); } /* mirror chevron for RTL */
+
+.back-btn svg { transform: scaleX(-1); }
 .back-btn:hover { color: var(--ink); }
 
 .screen > .screen__title { margin-top: 46px; }
+
+.screen[data-screen="analysis"],
+.screen[data-screen="action"] {
+  padding-top: 108px;
+}
+
+.screen[data-screen="action"] .screen__title { margin-top: 0; }
+
+/* ============ Retry banner ============ */
+
+.retry-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  color: var(--ink-soft);
+  padding: 13px 16px;
+  border-radius: var(--radius-sm);
+  font-size: 13.5px;
+  margin-bottom: var(--space-3);
+}
+
+.retry-banner__btn {
+  flex-shrink: 0;
+  background: var(--accent-deep);
+  color: #fff;
+  border: none;
+  border-radius: 999px;
+  padding: 8px 16px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.retry-banner__btn:disabled { opacity: 0.6; }
 
 /* ============ Warning banner ============ */
 
@@ -285,10 +340,12 @@ textarea { font-family: inherit; }
   min-height: 150px;
   transition: border-color 0.15s ease;
 }
+
 .incident-textarea:focus {
   outline: none;
   border-color: var(--accent);
 }
+
 .incident-textarea::placeholder { color: #A8B3B0; }
 
 .char-hint {
@@ -312,10 +369,11 @@ textarea { font-family: inherit; }
   font-size: 14px;
   line-height: 1.6;
 }
+
 .danger-alert strong { display: block; margin-bottom: 3px; font-size: 14.5px; }
 .danger-alert p { color: #8F3B34; }
 
-/* ============ Category result card — the emotional centerpiece ============ */
+/* ============ Category result card ============ */
 
 .category-card {
   background: linear-gradient(160deg, var(--accent-deep) 0%, #3D615E 100%);
@@ -329,13 +387,14 @@ textarea { font-family: inherit; }
   animation: riseIn 0.55s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   animation-delay: 0.1s;
 }
+
 @keyframes riseIn {
   to { opacity: 1; transform: translateY(0); }
 }
 
 .category-card__eyebrow {
   font-size: 12.5px;
-  color: rgba(255,255,255,0.72);
+  color: rgba(255, 255, 255, 0.72);
   display: block;
   margin-bottom: 8px;
 }
@@ -348,7 +407,7 @@ textarea { font-family: inherit; }
 .category-card__desc {
   font-size: 14px;
   line-height: 1.6;
-  color: rgba(255,255,255,0.85);
+  color: rgba(255, 255, 255, 0.85);
   max-width: 340px;
   margin: 0 auto;
 }
@@ -362,17 +421,20 @@ textarea { font-family: inherit; }
   padding: 18px;
   margin-bottom: var(--space-3);
 }
+
 .redaction-block__title {
   font-size: 13.5px;
   color: var(--ink-soft);
   font-weight: 500;
   margin-bottom: 10px;
 }
+
 .redaction-block__text {
   font-size: 15px;
   line-height: 1.8;
   color: var(--ink);
 }
+
 .redaction-block__text mark {
   background: var(--card);
   color: var(--accent-deep);
@@ -381,6 +443,7 @@ textarea { font-family: inherit; }
   font-weight: 500;
   font-style: normal;
 }
+
 .redaction-block__note {
   margin-top: 12px;
   font-size: 12.5px;
@@ -409,10 +472,12 @@ textarea { font-family: inherit; }
   border: none;
   padding: 16px 18px;
   text-align: right;
+  cursor: pointer;
 }
 
 .acc-card__num {
-  width: 26px; height: 26px;
+  width: 26px;
+  height: 26px;
   border-radius: 50%;
   background: var(--card);
   color: var(--accent-deep);
@@ -439,46 +504,66 @@ textarea { font-family: inherit; }
 
 .acc-card[data-open="true"] .acc-card__chev { transform: rotate(180deg); }
 
+/* Body: hidden by default, only shown when data-open="true".
+   No grid tricks, no clipping bugs — the whole body is simply
+   removed from the layout until the header is tapped. */
 .acc-card__body {
-  display: grid;
-  grid-template-rows: 0fr;
-  transition: grid-template-rows 0.25s ease;
+  display: none;
 }
-.acc-card__body > * { overflow: hidden; }
-.acc-card[data-open="true"] .acc-card__body { grid-template-rows: 1fr; }
-.acc-card__body-inner { padding: 0 18px 18px; }
 
-.acc-card__body p {
+.acc-card[data-open="true"] .acc-card__body {
+  display: block;
+}
+
+.acc-card__body-inner {
+  padding: 0 18px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.acc-card__hint {
   font-size: 13.5px;
   color: var(--ink-soft);
-  padding: 0 18px 10px;
   line-height: 1.6;
 }
 
-/* ============ Checklist ============ */
+.legal-text {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.75;
+}
 
 .checklist {
   list-style: none;
   margin: 0;
-  padding: 0 18px 16px;
+  padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
 }
 
 .checklist li {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 10px;
   font-size: 14.5px;
+  line-height: 1.55;
   color: var(--ink);
 }
 
 .checklist input[type="checkbox"] {
-  width: 19px; height: 19px;
+  width: 19px;
+  height: 19px;
   flex-shrink: 0;
+  margin-top: 2px;
   accent-color: var(--accent-deep);
   border-radius: 4px;
+}
+
+.checklist label {
+  flex: 1;
+  cursor: pointer;
 }
 
 .checklist label.checked {
@@ -488,36 +573,56 @@ textarea { font-family: inherit; }
 
 /* ============ Pathways (reporting channels) ============ */
 
-.pathway {
-  padding: 0 18px 16px;
+.pathways-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
 }
-.pathway + .pathway { border-top: 1px solid var(--border); padding-top: 16px; }
+
+.pathway {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 14px 16px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+}
 
 .pathway__name {
   font-size: 14.5px;
   font-weight: 700;
   color: var(--ink);
-  margin-bottom: 4px;
 }
+
 .pathway__desc {
   font-size: 13px;
   color: var(--ink-soft);
   line-height: 1.6;
-  margin-bottom: 10px;
 }
+
 .pathway__call {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background: var(--card);
+  align-self: flex-start;
+  background: var(--surface);
+  border: 1px solid var(--border);
   color: var(--accent-deep);
   font-weight: 700;
   font-size: 14px;
   padding: 10px 16px;
   border-radius: 999px;
   text-decoration: none;
+  margin-top: 4px;
+  transition: background 0.15s ease, border-color 0.15s ease;
 }
+
 .pathway__call svg { flex-shrink: 0; }
+.pathway__call:hover {
+  background: var(--card);
+  border-color: var(--accent);
+}
 
 /* ============ Report block ============ */
 
@@ -528,6 +633,7 @@ textarea { font-family: inherit; }
   margin-top: var(--space-2);
   text-align: center;
 }
+
 .report-block h3 { font-size: 16px; margin-bottom: 6px; }
 .report-block p { font-size: 13px; color: var(--ink-soft); margin-bottom: 16px; line-height: 1.6; }
 
@@ -546,4 +652,6 @@ textarea { font-family: inherit; }
 
 @media (min-width: 540px) {
   .screen { padding-top: 90px; }
+  .screen[data-screen="analysis"],
+  .screen[data-screen="action"] { padding-top: 108px; }
 }
