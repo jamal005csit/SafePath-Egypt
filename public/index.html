@@ -62,7 +62,7 @@
 
       <div id="charHint" class="char-hint">اكتبي على الأقل جملة أو اتنين عشان نقدر نساعدك صح</div>
 
-      <button id="analyzeBtn" class="btn btn--primary btn--lg btn--block" data-goto="analysis">
+      <button id="analyzeBtn" class="btn btn--primary btn--lg btn--block" type="button">
         <span class="btn__label">تحليل آمن</span>
         <span class="btn__spinner" hidden></span>
       </button>
@@ -71,6 +71,11 @@
     <!-- SCREEN 3: Triage & Redaction Results -->
     <section class="screen" data-screen="analysis" aria-hidden="true">
       <button class="back-btn" data-goto="input" aria-label="رجوع"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l-6 6 6 6M21 12H4"/></svg></button>
+
+      <div id="classifyRetryBanner" class="retry-banner" hidden>
+        <span>مقدرناش نوصل لخدمة التحليل دلوقتي.</span>
+        <button id="retryClassifyBtn" class="retry-banner__btn" type="button">حاولي تاني</button>
+      </div>
 
       <div id="dangerAlert" class="danger-alert" hidden>
         <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v4M12 17h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/></svg>
@@ -110,37 +115,43 @@
           <svg class="acc-card__chev" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
         </button>
         <div class="acc-card__body">
-          <p>احفظي دي على جهازك بس — مش هترفعيها هنا</p>
-          <ul id="evidenceChecklist" class="checklist"></ul>
+          <div class="acc-card__body-inner">
+            <p class="acc-card__hint">احفظي دي على جهازك بس — مش هترفعيها هنا</p>
+            <ul id="evidenceChecklist" class="checklist"></ul>
+          </div>
         </div>
       </div>
 
-      <div class="acc-card">
+      <div class="acc-card" data-open="false">
         <button class="acc-card__head">
           <span class="acc-card__num">٢</span>
           <span class="acc-card__title">مسارات الإبلاغ الرسمية</span>
           <svg class="acc-card__chev" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
         </button>
         <div class="acc-card__body">
-          <div id="pathwaysList"></div>
+          <div class="acc-card__body-inner">
+            <div id="pathwaysList" class="pathways-list"></div>
+          </div>
         </div>
       </div>
 
-      <div class="acc-card">
+      <div class="acc-card" data-open="false">
         <button class="acc-card__head">
           <span class="acc-card__num">٣</span>
           <span class="acc-card__title">الإطار القانوني</span>
           <svg class="acc-card__chev" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
         </button>
         <div class="acc-card__body">
-          <p id="legalText"></p>
+          <div class="acc-card__body-inner">
+            <p id="legalText" class="legal-text"></p>
+          </div>
         </div>
       </div>
 
       <div class="report-block">
         <h3>عايزة تسجلي البلاغ ده؟</h3>
         <p>هيتسجل رقم مرجعي بس — من غير أي بيانات تعرّف بيك.</p>
-        <button id="submitReportBtn" class="btn btn--primary btn--lg btn--block">تسجيل البلاغ</button>
+        <button id="submitReportBtn" class="btn btn--primary btn--lg btn--block" type="button">تسجيل البلاغ</button>
         <div id="reportConfirm" class="report-confirm" hidden></div>
       </div>
 
